@@ -1,16 +1,15 @@
-package meetup3
+package meetup2
 
-import java.text.SimpleDateFormat
 import java.util.Date
 
-import meetup.modelos.Anuncio
+import meetup0.Anuncio
+import meetup0.Utils._
 import org.apache.ignite.configuration.IgniteConfiguration
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi
 import org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder
 import org.apache.ignite.{IgniteCache, Ignition}
 
 //SPI = Service Provider Interface
-
 object IgniteTcpDiscovery1 extends App {
 
   //TcpDiscoverySpi es la implementacion por defecto
@@ -22,16 +21,17 @@ object IgniteTcpDiscovery1 extends App {
 
   val cfg = new IgniteConfiguration()
   cfg.setDiscoverySpi(spi)
+  cfg.setFailureDetectionTimeout(10000) //Valor por defecto
+
   val ignite = Ignition.start(cfg)
-  val cacheAnuncios: IgniteCache[String, Anuncio] = ignite.getOrCreateCache("anuncios")
+  val cacheAnuncios: IgniteCache[String, Anuncio] = ignite.getOrCreateCache(CACHE_NAME)
 
-  val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-  val anuncio = Anuncio(
+  val anuncioMulticast = Anuncio(
     fecha = format.format(new Date()),
-    id = "1",
-    texto = "anuncio 1",
+    id = "10",
+    texto = "multicast",
     pais = "es",
-    vertical = 1)
+    vertical = 10)
 
-  cacheAnuncios.put(anuncio.id, anuncio)
+  cacheAnuncios.put(anuncioMulticast.id, anuncioMulticast)
 }

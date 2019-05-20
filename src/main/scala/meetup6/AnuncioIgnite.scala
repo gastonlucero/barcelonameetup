@@ -1,4 +1,4 @@
-package meetup5
+package meetup6
 
 import org.apache.ignite.cache.query.annotations.QuerySqlField
 

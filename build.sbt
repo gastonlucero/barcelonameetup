@@ -13,5 +13,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion,
   "com.typesafe.akka" %% "akka-stream" % akkaVersion,
   "org.apache.ignite" % "ignite-core" % igniteVersion,
-  "org.apache.ignite" % "ignite-indexing" % igniteVersion
+  "org.apache.ignite" % "ignite-indexing" % igniteVersion,
+  "org.postgresql" % "postgresql" % "42.2.5",
+  "com.opentable.components" % "otj-pg-embedded" % "0.13.1"
 )
