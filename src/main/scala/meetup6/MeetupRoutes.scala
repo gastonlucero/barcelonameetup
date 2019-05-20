@@ -40,6 +40,7 @@ trait MeetupRoutes extends SprayJsonSupport with DefaultJsonProtocol {
         // GET -> /ads/byId/[id]
         (get & path("byId" / Segment)) { id =>
           igniteDirective(id) {
+            //Logica de negocio
             rejectEmptyResponse {
               complete("No esta en la cache")
             }

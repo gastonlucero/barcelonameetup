@@ -7,7 +7,7 @@ import org.apache.ignite.{IgniteCache, Ignition}
 
 object IgniteDefaultDiscoveryNodo2 extends App {
 
-
+  //Discovery entre los nodos por defecto
   val ignite = Ignition.start()
   val cacheCfg = new CacheConfiguration[String, Anuncio]("cacheAnuncios")
   val cacheAnuncios: IgniteCache[String, Anuncio] = ignite.getOrCreateCache(CACHE_NAME)

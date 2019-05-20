@@ -5,22 +5,15 @@ import java.util.Date
 import meetup0.Anuncio
 import meetup0.Utils._
 import org.apache.ignite.configuration.IgniteConfiguration
-import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi
-import org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder
 import org.apache.ignite.{IgniteCache, Ignition}
 
-//SPI = Service Provider Interface
-object IgniteTcpDiscovery1 extends App {
 
-  //TcpDiscoverySpi es la implementacion por defecto
-  //Discovery SPI can be configured for Multicast and Static IP based node discovery
-  val spi = new TcpDiscoverySpi
-  val spiMulticast = new TcpDiscoveryMulticastIpFinder
-  spiMulticast.setMulticastGroup("228.10.10.170")
-  spi.setIpFinder(spiMulticast)
+object IgniteTcpDiscovery1 extends App with IgniteTcpDiscovery {
+
+  //Discovery entre los especificando explicitamente TcpDiscoverySpi cambiando la ip de descubrimiento
 
   val cfg = new IgniteConfiguration()
-  cfg.setDiscoverySpi(spi)
+  cfg.setDiscoverySpi(tcpSpiConfig)
   cfg.setFailureDetectionTimeout(10000) //Valor por defecto
 
   val ignite = Ignition.start(cfg)

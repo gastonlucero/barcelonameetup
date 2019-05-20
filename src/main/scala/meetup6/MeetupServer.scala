@@ -37,6 +37,6 @@ object MeetupServer extends App with MeetupRoutes {
   //Http routes
   lazy val routes: Route = meetupRoutes
 
-  val serverBindingFuture = Http().bindAndHandle(routes, "localhost", 8000)
+  val serverBindingFuture = Http().bindAndHandle(routes, "localhost", 9000)
 
 }

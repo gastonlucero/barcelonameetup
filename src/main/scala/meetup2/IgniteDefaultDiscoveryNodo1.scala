@@ -7,6 +7,7 @@ import org.apache.ignite.{IgniteCache, Ignition}
 
 object IgniteDefaultDiscoveryNodo1 extends App {
 
+  //Discovery entre los nodos por defecto (TcpDiscoverySpi)
   val ignite = Ignition.start()
   val cacheCfg = new CacheConfiguration[String, Anuncio](CACHE_NAME)
   val cacheAnuncios: IgniteCache[String, Anuncio] = ignite.getOrCreateCache(cacheCfg)

@@ -13,7 +13,7 @@ object IgniteClusterApi2 extends App {
   val cacheCfg = new CacheConfiguration[String, Anuncio](CACHE_NAME)
   igniteConfig.setCacheConfiguration(cacheCfg)
 
-  //Este nodo tiene el atributo ROLE -> MASTER
+  //Este nodo tiene el atributo ROLE -> MASTER, y recibira la computacion que le envien los nodos ROLE -> MASTER
   igniteConfig.setUserAttributes(Map[String, Any]("ROLE" -> "WORKER").asJava)
   val ignite = Ignition.start(igniteConfig)
 

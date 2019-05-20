@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 import javax.cache.Cache
+import meetup0.Utils._
 import org.apache.ignite.cache.query.annotations.QuerySqlField
 import org.apache.ignite.cache.query.{QueryCursor, ScanQuery, SqlQuery}
 import org.apache.ignite.configuration.{CacheConfiguration, IgniteConfiguration}
@@ -11,7 +12,9 @@ import org.apache.ignite.lang.IgniteBiPredicate
 import org.apache.ignite.{IgniteCache, Ignition}
 
 import scala.annotation.meta.field
-import meetup0.Utils._
+
+
+//Para utilizar SqlQuery, la case class debe tener las anotaciones
 
 case class AnuncioSql(@(QuerySqlField@field) fecha: String,
                       @(QuerySqlField@field)(index = true) id: String,
@@ -21,23 +24,16 @@ case class AnuncioSql(@(QuerySqlField@field) fecha: String,
 
 object IgniteSql extends App {
 
-  val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-
   val igniteConfig = new IgniteConfiguration()
   val cacheCfg = new CacheConfiguration[String, AnuncioSql](CACHE_NAME)
+
   //Sin esto no funcionan las queries SqlQuery
   cacheCfg.setIndexedTypes(Seq(classOf[String], classOf[AnuncioSql]): _*)
+
   igniteConfig.setCacheConfiguration(cacheCfg)
   val ignite = Ignition.start(igniteConfig)
   val cacheConSql: IgniteCache[String, AnuncioSql] = ignite.getOrCreateCache(cacheCfg)
-
-  implicit class CacheIterator[String, AnuncioSql](query: QueryCursor[Cache.Entry[String, AnuncioSql]]) {
-
-    import scala.collection.JavaConverters._
-
-    def printAsScala() = query.getAll.asScala.map(_.getValue).foreach(println)
-  }
-
+  
   val anuncioSql1 = AnuncioSql(
     fecha = format.format(new Date()),
     id = "1",
@@ -79,5 +75,12 @@ object IgniteSql extends App {
 
   ignite.close()
   System.exit(1)
+
+  implicit class CacheIterator[String, AnuncioSql](query: QueryCursor[Cache.Entry[String, AnuncioSql]]) {
+
+    import scala.collection.JavaConverters._
+
+    def printAsScala() = query.getAll.asScala.map(_.getValue).foreach(println)
+  }
 
 }
